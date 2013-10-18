@@ -1,2 +1,2 @@
 .vagrant
-backend/db.sqlite3
+backend/backend/db.sqlite3

@@ -113,6 +113,11 @@ class Auction(models.Model):
 
         return bid
 
+    def ban(self):
+        self.status = Auction.BANNED
+        self.save()
+        return self
+
 class Bid(models.Model):
     amount = models.FloatField(_("Amount"), validators=[validators.validate_positive_number])
     user = models.ForeignKey(User, related_name="bids")

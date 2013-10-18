@@ -17,6 +17,12 @@
         {% trans 'Update' %}
       </a>
     {% endif %}
+    {% if is_admin %}
+    <form action="{% url 'ban_auction' auction_id=auction.id %}" method="POST">
+      {% csrf_token %}
+      <button class="btn btn-danger">{% trans 'Ban' %}</button>
+    </form>
+    {% endif %}
   </div>
 
   <div class="description">

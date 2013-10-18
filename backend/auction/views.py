@@ -71,6 +71,7 @@ class DetailView(View):
         context = {
             'auction': auction,
             'is_seller': auction.is_seller(request.user),
+            'is_admin': request.user.is_superuser,
             'bids': bids
         }
         return render(request, self.template_name, context)
@@ -140,4 +141,15 @@ class BidView(View):
             except InvalidBid, e:
                 messages.error(request, _('You must bid at least %(amount)s') % {'amount': e.amount})
 
+        return redirect(auction)
+
+class BanView(View):
+    @method_decorator(login_required)
+    @method_decorator(pre_process_auction(only_admin=True))
+    def dispatch(self, *args, **kwargs):
+        return super(BanView, self).dispatch(*args, **kwargs)
+
+    def post(self, request, auction_id):
+        auction = request.auction
+        auction.ban()
         return redirect(auction)

@@ -1,3 +1,7 @@
+# Folder structure
+* `backend` contains the main code for the project
+* `provision` contains provision code used for setting up the environment
+
 # Installation Instruction
 * Install python (2.7)
 * Install pip
