@@ -46,7 +46,7 @@
             {% else %}
             <li class="divider-vertical"></li>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "My Account" %} <b class="caret"></b></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{user.email}} <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="{% url 'update_profile' %}">{% trans "Update profile" %}</a></li>
                 <li><a href="#">Another action</a></li>

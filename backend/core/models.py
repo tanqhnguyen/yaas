@@ -10,6 +10,7 @@ import math
 from core import mails
 from exceptions import InvalidBid
 from celery.task.control import revoke
+from django.core.exceptions import ObjectDoesNotExist
 
 class Auction(models.Model):
     INACTIVE = 'inactive'
@@ -100,10 +101,13 @@ class Auction(models.Model):
             raise InvalidBid(self.min_next_bid_amount())
 
         # gets the previous bidder if any
-        previous_bid = Bid.objects.filter(amount__lt=amount).exclude(user=user).all()[:1].get()
-        if previous_bid:
-            kwargs['to'] = [previous_bid.user.email]
-            mails.send(**kwargs)
+        try:
+            previous_bid = Bid.objects.filter(amount__lt=amount).exclude(user=user).all()[:1].get()
+            if previous_bid:
+                kwargs['to'] = [previous_bid.user.email]
+                mails.send(**kwargs)
+        except ObjectDoesNotExist:
+            pass
 
         bid = Bid()
         bid.auction_id = self.id
@@ -124,6 +128,19 @@ class Auction(models.Model):
         self.status = Auction.BANNED
         self.cancel_task()
         self.save()
+
+        kwargs = {
+            'subject': _("Auction has been banned"),
+            'body': _("Auction %(title)s has been banned" % {'title': self.title})
+        }
+
+        emails = [bid.user.email for bid in self.bids.all()]
+        emails = set(emails)
+        emails.add(self.seller.email)
+        for email in emails:
+            kwargs['to'] = [email]
+            mails.send(**kwargs)
+
         return self
 
 class Bid(models.Model):
