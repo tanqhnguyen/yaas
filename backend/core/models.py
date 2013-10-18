@@ -9,6 +9,7 @@ import pytz
 import math
 from core import mails
 from exceptions import InvalidBid
+from celery.task.control import revoke
 
 class Auction(models.Model):
     INACTIVE = 'inactive'
@@ -24,6 +25,7 @@ class Auction(models.Model):
     status = models.CharField(max_length=32, default=INACTIVE)
     version = models.IntegerField(default=0)
     bid_version = models.IntegerField(default=0)
+    task_id = models.CharField(max_length=36, default='')
 
     _current_highest_bid = None
 
@@ -42,9 +44,14 @@ class Auction(models.Model):
         mails.send(**kwargs)
         return self
 
+    def cancel_task(self):
+        revoke(self.task_id, terminate=True)
+
     def start_timer(self):
         time_left = self.calculate_time_left()
-        auction_end.apply_async((self,), countdown=time_left)
+        task = auction_end.apply_async((self,), countdown=time_left)
+        self.task_id = task.id
+        self.save()
 
     def end(self):
         time_left = self.calculate_time_left()
@@ -115,6 +122,7 @@ class Auction(models.Model):
 
     def ban(self):
         self.status = Auction.BANNED
+        self.cancel_task()
         self.save()
         return self
 
