@@ -88,17 +88,21 @@ class Auction(models.Model):
             'subject': _("New bid"),
             'body': _("New bid has been placed")
         }
+
+        if self.status != Auction.ACTIVE:
+            raise InvalidBid(reason='Auction is not available for bidding')
+
         # get the current highest bid
         current_highest_bid = self.current_highest_bid()
         amount = float(amount)
         if current_highest_bid and amount < current_highest_bid.amount:
-            raise InvalidBid(self.min_next_bid_amount())
+            raise InvalidBid(amount=self.min_next_bid_amount())
 
         if self.min_price > amount:
-            raise InvalidBid(self.min_next_bid_amount())
+            raise InvalidBid(amount=self.min_next_bid_amount())
 
         if current_highest_bid and round(amount - current_highest_bid.amount, 2)< 0.01:
-            raise InvalidBid(self.min_next_bid_amount())
+            raise InvalidBid(amount=self.min_next_bid_amount())
 
         # gets the previous bidder if any
         try:

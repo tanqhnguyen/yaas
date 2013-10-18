@@ -106,7 +106,7 @@ class SearchView(View):
 
     def get(self, request):
         q = request.GET['q']
-        auctions = Auction.objects.filter(title__contains=q).all()
+        auctions = Auction.objects.filter(title__contains=q).exclude(status=Auction.BANNED).exclude(status=Auction.INACTIVE).all()
         context = {
             'auctions': auctions,
             'q': q
@@ -139,7 +139,10 @@ class BidView(View):
                 auction.bid(amount, request.user)
                 messages.success(request, _('Your bid has been placed successfully'))
             except InvalidBid, e:
-                messages.error(request, _('You must bid at least %(amount)s') % {'amount': e.amount})
+                if e.reason:
+                    messages.error(request, _(e.reason))
+                else:    
+                    messages.error(request, _('You must bid at least %(amount)s') % {'amount': e.amount})
 
         return redirect(auction)
 
