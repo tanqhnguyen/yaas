@@ -1,0 +1,36 @@
+@import 'bootstrap/bootstrap.less';
+@import 'bootstrap-datetimepicker.less';
+//@import 'geo/variables.less';
+//@import 'geo/bootswatch.less';
+
+body {
+  padding-top: 20px;
+  padding-bottom: 30px;
+}
+
+.decorated {
+  padding: 15px;
+  background-color: white;
+  .border-radius(3px);
+  margin-top: 10px;
+  margin-bottom: 10px;
+  .box-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+}
+
+.form-horizontal {
+  .control-group {
+    &.error {
+      .controls {
+        .help-block {
+          display: block;
+        }
+      }
+    }
+
+    .controls {
+      .help-block {
+        display: none;
+      }
+    }
+  }
+}

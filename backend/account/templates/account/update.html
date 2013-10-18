@@ -1,0 +1,75 @@
+{% extends 'layouts/base.html' %}
+
+{% load i18n %}
+
+{% block content %}
+<div class="decorated">
+  <form method="POST" class="form-horizontal">
+    {% csrf_token %}
+    <legend>
+      {% trans 'Update profile' %}
+    </legend>
+    <fieldset>
+      {% if form.errors.email %}
+      <div class="control-group error">
+      {% else %}
+      <div class="control-group">
+      {% endif %}
+        <lable class="control-label" for="email">
+          {{ form.email.label }}
+        </lable>
+        <div class="controls">
+          <input type="text" class="span4" id="email" name="email" placeholder="{{ form.email.label }}" value="{{ form.email.value|default_if_none:'' }}" />
+          <span class="help-block">{{ form.errors.email }}</span>
+        </div>
+      </div>
+
+      {% if form.errors.current_password %}
+      <div class="control-group error">
+      {% else %}
+      <div class="control-group">
+      {% endif %}
+        <lable class="control-label" for="current_password">
+          {{ form.current_password.label }}
+        </lable>
+        <div class="controls">
+          <input type="password" class="span4" id="current_password" name="current_password" placeholder="{{ form.current_password.label }}" value="{{ form.current_password.value|default_if_none:'' }}" />
+          <span class="help-block">{{ form.errors.current_password }}</span>
+        </div>
+      </div>
+
+      {% if form.errors.new_password %}
+      <div class="control-group error">
+      {% else %}
+      <div class="control-group">
+      {% endif %}
+        <lable class="control-label" for="new_password">
+          {{ form.new_password.label }}
+        </lable>
+        <div class="controls">
+          <input type="password" class="span4" id="new_password" name="new_password" placeholder="{{ form.new_password.label }}" value="{{ form.new_password.value|default_if_none:'' }}" />
+          <span class="help-block">{{ form.errors.new_password }}</span>
+        </div>
+      </div>
+
+      {% if form.errors.confirm_new_password %}
+      <div class="control-group error">
+      {% else %}
+      <div class="control-group">
+      {% endif %}
+        <lable class="control-label" for="confirm_new_password">
+          {{ form.confirm_new_password.label }}
+        </lable>
+        <div class="controls">
+          <input type="password" class="span4" id="confirm_new_password" name="confirm_new_password" placeholder="{{ form.confirm_new_password.label }}" value="{{ form.confirm_new_password.value|default_if_none:'' }}" />
+          <span class="help-block">{{ form.errors.confirm_new_password }}</span>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">{% trans 'Save' %}</button>
+      </div>
+    </fieldset>
+  </form>
+</div>
+{% endblock %}

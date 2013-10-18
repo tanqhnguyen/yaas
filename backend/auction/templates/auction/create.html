@@ -1,0 +1,94 @@
+{% extends 'layouts/base.html' %}
+
+{% load i18n %}
+{% load static %}
+
+{% block javascript %}
+<script type="text/javascript" src="{% static 'js/bootstrap/bootstrap-collapse.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/bootstrap/bootstrap-datetimepicker.js' %}"></script>
+<script type="text/javascript">
+$(function(){
+  $('#deadline-datetime-picker').datetimepicker({
+    language: 'en'
+  });
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="decorated">
+  <form method="POST" class="form-horizontal">
+    {% csrf_token %}
+    <legend>
+      {% trans 'Create auction' %}
+    </legend>
+    <fieldset>
+      {% if form.errors.title %}
+      <div class="control-group error">
+      {% else %}
+      <div class="control-group">
+      {% endif %}
+        <lable class="control-label" for="title">
+          {{ form.title.label }}
+        </lable>
+        <div class="controls">
+          <input type="text" class="span6" id="title" name="title" placeholder="{{ form.title.label }}" value="{{ form.title.value|default_if_none:'' }}" />
+          <span class="help-block">{{ form.errors.title }}</span>
+        </div>
+      </div>
+
+      {% if form.errors.deadline %}
+      <div class="control-group error">
+      {% else %}
+      <div class="control-group">
+      {% endif %}
+        <lable class="control-label" for="deadline">
+          {{ form.deadline.label }}
+        </lable>
+        <div class="controls">
+          <div id="deadline-datetime-picker" class="input-append">
+            <input data-format="yyyy-MM-dd hh:mm:ss" type="text" id="deadline" name="deadline" value="{{ form.deadline.value|default_if_none:'' }}" />
+            <span class="add-on">
+              <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+              </i>
+            </span>
+          </div>
+          <span class="help-block">{{ form.errors.deadline }}</span>
+        </div>
+      </div>
+
+      {% if form.errors.description %}
+      <div class="control-group error">
+      {% else %}
+      <div class="control-group">
+      {% endif %}
+        <lable class="control-label" for="description">
+          {{ form.description.label }}
+        </lable>
+        <div class="controls">
+          <textarea style="height: 200px" class="span6" id="description" name="description" placeholder="{{ form.description.label }}">{{ form.description.value|default_if_none:'' }}</textarea>
+          <span class="help-block">{{ form.errors.description }}</span>
+        </div>
+      </div>
+
+      {% if form.errors.min_price %}
+      <div class="control-group error">
+      {% else %}
+      <div class="control-group">
+      {% endif %}
+        <lable class="control-label" for="min_price">
+          {{ form.min_price.label }}
+        </lable>
+        <div class="controls">
+          <input type="text" class="span1" id="min_price" name="min_price" placeholder="{{ form.min_price.label }}" value="{{ form.min_price.value|default_if_none:10 }}" />
+          <span class="help-block">{{ form.errors.min_price }}</span>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">{% trans 'Create' %}</button>
+      </div>
+    </fieldset>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'layouts/base.html' %}
+
+{% load i18n %}
+{% load custom_tags %}
+
+
+{% block content %}
+<div class="decorated auction-detail">
+  <h2>
+    {{auction.title}}
+  </h2>
+  <hr>
+
+  <div class="actions">
+    {% if is_seller %}
+      <a href="{% url 'update_auction' auction_id=auction.id %}" class="btn">
+        {% trans 'Update' %}
+      </a>
+    {% endif %}
+  </div>
+
+  <div class="description">
+    {{ auction.description }}
+  </div>
+
+  <div class="bid">
+    {% if not is_seller %}
+    <form action="{% url 'bid_auction' auction_id=auction.id %}" method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="version" value="{{auction.version}}">
+      <input type="hidden" name="bid_version" value="{{auction.bid_version}}">
+      <input class="span1" type="text" name="amount" value="{{auction.min_next_bid_amount | format_bid_amount}}"><br/>
+      <button class="btn btn-primary">{% trans 'Place new bid' %}</button>
+    </form>
+    {% endif %}
+  </div>
+
+  <div class="bid-list">
+    {% for bid in bids.all %}
+      <div class="bid-entry">
+        {{bid.amount | format_bid_amount }} - {{bid.user.email}}
+      </div>
+    {% endfor %}
+  </div>
+
+</div>
+{% endblock %}

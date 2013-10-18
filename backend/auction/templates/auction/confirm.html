@@ -1,0 +1,61 @@
+{% extends 'layouts/base.html' %}
+
+{% load i18n %}
+
+{% block content %}
+<div class="decorated">
+  <form method="POST" class="form-horizontal" action="{% url 'confirm_auction' %}">
+    {% csrf_token %}
+    <legend>
+      {% trans 'Please confirm that you want to create this auction' %}
+    </legend>
+    <fieldset>
+      <input type="hidden" name="title" value="{{ form.title.value }}">
+      <input type="hidden" name="description" value="{{ form.description.value }}">
+      <input type="hidden" name="deadline" value="{{ form.deadline.value }}">
+      <input type="hidden" name="min_price" value="{{ form.min_price.value }}">
+
+      <div class="control-group">
+        <lable class="control-label" for="title">
+          {{ form.title.label }}
+        </lable>
+        <div class="controls">
+          <input disabled type="text" class="span6" id="title" name="title" value="{{ form.title.value|default_if_none:'' }}" />
+        </div>
+      </div>
+
+      <div class="control-group">
+        <lable class="control-label" for="deadline">
+          {{ form.deadline.label }}
+        </lable>
+        <div class="controls">
+          <input disabled type="text" class="span6" id="deadline" name="deadline" value="{{ form.deadline.value|default_if_none:'' }}" />
+        </div>
+      </div>
+
+      <div class="control-group">
+        <lable class="control-label" for="description">
+          {{ form.description.label }}
+        </lable>
+        <div class="controls">
+          <textarea disabled style="height: 200px" class="span6" id="description" name="description">{{ form.description.value|default_if_none:'' }}</textarea>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <lable class="control-label" for="min_price">
+          {{ form.min_price.label }}
+        </lable>
+        <div class="controls">
+          <input disabled type="text" class="span1" id="min_price" name="min_price" value="{{ form.min_price.value|default_if_none:'' }}" />
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn btn-primary" name="confirm" value="yes">{% trans 'Yes' %}</button>
+        <button class="btn" name="confirm" value="no">{% trans 'No' %}</button>
+      </div>
+    </fieldset>
+  </form>
+</div>
+{% endblock %}

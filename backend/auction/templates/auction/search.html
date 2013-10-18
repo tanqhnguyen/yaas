@@ -1,0 +1,14 @@
+{% extends 'layouts/base.html' %}
+
+{% load i18n %}
+{% load custom_tags %}
+
+{% block content %}
+  {% if auctions.count > 0 %}
+    {% for auction in auctions %}
+    {% auction_list_entry auction %}
+    {% endfor %}
+  {% else %}
+    {% trans 'Not found' %}
+  {% endif %}
+{% endblock %}

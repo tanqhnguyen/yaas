@@ -1,0 +1,75 @@
+{% extends 'layouts/base.html' %}
+
+{% load i18n %}
+
+{% block content %}
+<div class="decorated">
+  <form method="POST" class="form-horizontal">
+    {% csrf_token %}
+    <legend>
+      {% trans 'Registration' %}
+    </legend>
+    <fieldset>
+      {% if form.errors.username %}
+      <div class="control-group error">
+      {% else %}
+      <div class="control-group">
+      {% endif %}
+        <lable class="control-label" for="username">
+          {{ form.username.label }}
+        </lable>
+        <div class="controls">
+          <input type="text" class="span4" id="username" name="username" placeholder="{{ form.username.label }}" value="{{ form.username.value|default_if_none:'' }}" />
+          <span class="help-block">{{ form.errors.username }}</span>
+        </div>
+      </div>
+
+      {% if form.errors.email %}
+      <div class="control-group error">
+      {% else %}
+      <div class="control-group">
+      {% endif %}
+        <lable class="control-label" for="email">
+          {{ form.email.label }}
+        </lable>
+        <div class="controls">
+          <input type="text" class="span4" id="email" name="email" placeholder="{{ form.email.label }}" value="{{ form.email.value|default_if_none:'' }}" />
+          <span class="help-block">{{ form.errors.email }}</span>
+        </div>
+      </div>
+
+      {% if form.errors.password1 %}
+      <div class="control-group error">
+      {% else %}
+      <div class="control-group">
+      {% endif %}
+        <lable class="control-label" for="password1">
+          {{ form.password1.label }}
+        </lable>
+        <div class="controls">
+          <input type="password" class="span4" id="password1" name="password1" placeholder="{{ form.password1.label }}" value="{{ form.password1.value|default_if_none:'' }}" />
+          <span class="help-block">{{ form.errors.password1 }}</span>
+        </div>
+      </div>
+
+      {% if form.errors.password2 %}
+      <div class="control-group error">
+      {% else %}
+      <div class="control-group">
+      {% endif %}
+        <lable class="control-label" for="password2">
+          {{ form.password2.label }}
+        </lable>
+        <div class="controls">
+          <input type="password" class="span4" id="password2" name="password2" placeholder="{{ form.password2.label }}" value="{{ form.password2.value|default_if_none:'' }}" />
+          <span class="help-block">{{ form.errors.password2 }}</span>
+        </div>
+      </div>
+
+      <div class="form-action">
+        <button type="submit" class="btn btn-primary">{% trans 'Register' %}</button> {% trans 'or' %} <a href="{% url 'django.contrib.auth.views.login' %}">{% trans 'Login' %}</a>
+      </div>
+    </fieldset>
+  </form>
+</div>
+{% endblock %}

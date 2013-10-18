@@ -1,0 +1,17 @@
+<div class="decorated auction-list-entry">
+  <h4>
+    <a href="{{ auction.get_absolute_url }}">
+      {{auction.title}}
+    </a>
+  </h4>
+  <hr>
+  <div class="description">
+    {{ auction.description }}
+  </div>
+  <div class="start-price">
+    <b>Start price:</b> {{ auction.min_price }} EUR
+  </div>
+  <div class="current-price">
+    <b>Current bid:</b> {{ auction.min_price }} EUR
+  </div>
+</div>

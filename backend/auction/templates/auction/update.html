@@ -1,0 +1,24 @@
+{% extends 'layouts/base.html' %}
+
+{% load i18n %}
+{% load custom_tags %}
+
+
+{% block content %}
+<div class="decorated auction-detail">
+  <h2>
+    {{auction.title}}
+  </h2>
+  <hr>
+  <form method="POST">
+    {% csrf_token %}
+    <div class="description">
+      <textarea name="description" class="span10" style="height: 200px;">{{ auction.description }}</textarea>
+    </div>
+
+    <div>
+      <button class="btn btn-primary">{% trans 'Update' %}</button>
+    </div>
+  </form>
+</div>
+{% endblock %}
