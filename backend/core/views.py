@@ -12,5 +12,10 @@ def index(request):
 def set_language(request, language):
     request.session['django_language'] = language
     next = request.GET.get('next', default='/')
+
+    if request.user.is_authenticated:
+        request.user.profile.language = language
+        request.user.profile.save()
+        
     return redirect(next)
     

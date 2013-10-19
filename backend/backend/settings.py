@@ -122,6 +122,7 @@ MIDDLEWARE_CLASSES = (
   # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+AUTH_USER_MODEL = 'core.User'
 LOGIN_REDIRECT_URL = '/account/profile'
 LOGIN_URL = '/login'
 

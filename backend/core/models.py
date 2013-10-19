@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
 from auction.tasks import auction_end
@@ -11,6 +11,9 @@ from core import mails
 from exceptions import InvalidBid
 from celery.task.control import revoke
 from django.core.exceptions import ObjectDoesNotExist
+
+class User(AbstractUser):
+    language = models.CharField(max_length=2, default='en')
 
 class Auction(models.Model):
     INACTIVE = 'inactive'
