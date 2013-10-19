@@ -41,7 +41,7 @@ LANGUAGE_CODE = 'en-us'
 
 LANGUAGES = (
   ('en', 'English'),
-  ('vn', 'Vietnam'),
+  ('vn', 'Vietnamese'),
 )
 
 SITE_ID = 1
