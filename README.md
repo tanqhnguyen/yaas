@@ -9,14 +9,15 @@
 # Install dependencies
 * pip install -r backend/requirements.txt
 
-# Setup database
-* python manage.py syncdb
-* python manage.py migrate
+# First start the project
+1. Setting up the database `python manage.py syncdb`
+2. Migrate database schema `python manage.py migrate`
+3. Manually create an admin user `python manage.py createsuperuser`
 
 # Start server
 * python manage.py runserver
 
-# Start celery worker to do countdown
+# Start celery worker to do background tasks
 * python manage.py celery worker --loglevel=info
 
 # Note about provision
