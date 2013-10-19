@@ -72,7 +72,9 @@ class DetailView(View):
             'auction': auction,
             'is_seller': auction.is_seller(request.user),
             'is_admin': request.user.is_superuser,
-            'bids': bids
+            'bids': bids,
+            'is_finished': auction.status == Auction.FINISHED,
+            'winner': auction.get_winner()
         }
         return render(request, self.template_name, context)
 

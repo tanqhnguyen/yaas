@@ -28,8 +28,6 @@ class Auction(models.Model):
     bid_version = models.IntegerField(default=0)
     task_id = models.CharField(max_length=36, default='')
 
-    _current_highest_bid = None
-
     def get_absolute_url(self):
         return reverse('view_auction', kwargs={'auction_id': self.id})
 
@@ -50,16 +48,47 @@ class Auction(models.Model):
 
     def start_timer(self):
         time_left = self.calculate_time_left()
+        time_left = 30
         task = auction_end.apply_async((self,), countdown=time_left)
         self.task_id = task.id
         self.save()
 
     def end(self):
-        time_left = self.calculate_time_left()
-        if time_left <= 0 and self.status is not Auction.BANNED:
-            self.status = Auction.FINISHED
-            self.save()
+        if self.status != Auction.ACTIVE:
+            return self
+        
+        current_highest_bid = self.current_highest_bid()
+        if current_highest_bid:
+            current_highest_bid.is_won = True
+            current_highest_bid.save()
+
+        self.status = Auction.FINISHED
+        self.save()
+
+        kwargs = {
+            'subject': _("The auction has been resolved"),
+            'body': _("The auction \"%(title)s\" has been resolved." % {'title': self.title})
+        }
+        emails = set([bid.user.email for bid in self.bids.all()])
+
+        emails.add(self.seller.email)
+
+        for email in emails:
+            kwargs['to'] = [email]
+            mails.send(**kwargs)
+
         return self
+
+    def get_winner(self):
+        if self.bids.count() == 0:
+            return None
+
+        filter_set = self.bids.filter(is_won=True)
+        print filter_set.count()
+        if filter_set.count() > 0:
+            return filter_set.all()[0].user
+
+        return None
 
     def calculate_time_left(self):
         deadline_in_s = self.deadline
@@ -68,13 +97,9 @@ class Auction(models.Model):
         return int(math.floor(deadline_in_s.total_seconds()))
 
     def current_highest_bid(self):
-        if self._current_highest_bid:
-            return self._current_highest_bid
-
         if self.bids.count() == 0:
             return None
-        self._current_highest_bid = Bid.objects.filter(auction_id=self.id).order_by('-amount')[0]
-        return self._current_highest_bid
+        return Bid.objects.filter(auction_id=self.id).order_by('-amount')[0]
 
     def min_next_bid_amount(self):
         current_highest_bid = self.current_highest_bid()
@@ -129,6 +154,9 @@ class Auction(models.Model):
         return bid
 
     def ban(self):
+        if self.statis == Auction.BANNED:
+            return self
+
         self.status = Auction.BANNED
         self.cancel_task()
         self.save()

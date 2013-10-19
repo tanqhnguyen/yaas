@@ -9,6 +9,9 @@
   <h2>
     {{auction.title}}
   </h2>
+  {% if is_finished %}
+    {% trans 'Resolved' %}
+  {% endif %}
   <hr>
 
   <div class="actions">
@@ -36,10 +39,16 @@
       <input type="hidden" name="version" value="{{auction.version}}">
       <input type="hidden" name="bid_version" value="{{auction.bid_version}}">
       <input class="span1" type="text" name="amount" value="{{auction.min_next_bid_amount | format_bid_amount}}"><br/>
-      <button class="btn btn-primary">{% trans 'Place new bid' %}</button>
+      <button class="btn btn-primary" {% if is_finished %}disabled{% endif %} >{% trans 'Place new bid' %}</button>
     </form>
     {% endif %}
   </div>
+
+  {% if is_finished and winner %}
+  <div class="winner">
+    {% trans 'Winner is:' %}{{winner.username}}
+  </div>
+  {% endif %}
 
   <div class="bid-list">
     {% for bid in bids.all %}
