@@ -51,7 +51,6 @@ class Auction(models.Model):
 
     def start_timer(self):
         time_left = self.calculate_time_left()
-        time_left = 30
         task = auction_end.apply_async((self,), countdown=time_left)
         self.task_id = task.id
         self.save()
