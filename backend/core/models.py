@@ -110,8 +110,8 @@ class Auction(models.Model):
             highest = current_highest_bid.amount
         return highest + 0.01
 
-    def bid(self, amount, user):
-        kwargs = {
+    def bid(self, amount, user, skip_email=False):
+        email_kwargs = {
             'subject': _("New bid"),
             'body': _("New bid has been placed")
         }
@@ -134,24 +134,25 @@ class Auction(models.Model):
         # gets the previous bidder if any
         try:
             previous_bid = Bid.objects.filter(amount__lt=amount).exclude(user=user).all()[:1].get()
-            if previous_bid:
-                kwargs['to'] = [previous_bid.user.email]
-                mails.send(**kwargs)
+            if previous_bid and not skip_email:
+                email_kwargs['to'] = [previous_bid.user.email]
+                mails.send(**email_kwargs)
         except ObjectDoesNotExist:
             pass
 
         bid = Bid()
         bid.auction_id = self.id
         bid.user_id = user.id
-        bid.amount = amount
+        bid.amount = round(amount, 2)
         self.bid_version += 1
         self.save()
         bid.save()
 
-        kwargs['to'] = [self.seller.email]
-        mails.send(**kwargs)
-        kwargs['to'] = [bid.user.email]
-        mails.send(**kwargs)
+        if not skip_email:
+            email_kwargs['to'] = [self.seller.email]
+            mails.send(**email_kwargs)
+            email_kwargs['to'] = [bid.user.email]
+            mails.send(**email_kwargs)
 
         return bid
 

@@ -138,7 +138,7 @@ class BidView(View):
             messages.warning(request, _('Someone has placed a bid before you. Please try again'))
         else:
             try:
-                auction.bid(amount, request.user)
+                auction.bid(amount=amount, user=request.user)
                 messages.success(request, _('Your bid has been placed successfully'))
             except InvalidBid, e:
                 if e.reason:
