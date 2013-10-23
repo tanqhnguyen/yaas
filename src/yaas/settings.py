@@ -126,10 +126,10 @@ AUTH_USER_MODEL = 'core.User'
 LOGIN_REDIRECT_URL = '/account/profile'
 LOGIN_URL = '/login'
 
-ROOT_URLCONF = 'backend.urls'
+ROOT_URLCONF = 'yaas.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'backend.wsgi.application'
+WSGI_APPLICATION = 'yaas.wsgi.application'
 
 TEMPLATE_DIRS = (
   # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
