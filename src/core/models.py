@@ -86,7 +86,6 @@ class Auction(models.Model):
             return None
 
         filter_set = self.bids.filter(is_won=True)
-        print filter_set.count()
         if filter_set.count() > 0:
             return filter_set.all()[0].user
 
@@ -128,8 +127,11 @@ class Auction(models.Model):
         if self.min_price > amount:
             raise InvalidBid(amount=self.min_next_bid_amount())
 
-        if current_highest_bid and round(amount - current_highest_bid.amount, 2)< 0.01:
+        if current_highest_bid and round(amount - current_highest_bid.amount, 2) < 0.01:
             raise InvalidBid(amount=self.min_next_bid_amount())
+        elif round(amount - self.min_price, 2) < 0.01:
+            raise InvalidBid(amount=self.min_next_bid_amount())
+
 
         # gets the previous bidder if any
         try:

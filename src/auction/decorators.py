@@ -4,7 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.utils.translation import ugettext_lazy as _
 from django.shortcuts import redirect
 
-def pre_process_auction(only_seller = False, not_seller = False, only_admin = False):
+def pre_process_auction(only_seller = False, not_seller = False, only_admin = False, not_finished=False):
     def decorator(function):
         def inner(request, *args, **kwargs):
             auction_id = kwargs.get('auction_id')
@@ -16,6 +16,10 @@ def pre_process_auction(only_seller = False, not_seller = False, only_admin = Fa
 
                 if auction.status == Auction.BANNED:
                     messages.error(request, _('The auction has been banned'))
+                    return redirect("/")
+
+                if not_finished and auction.status == Auction.FINISHED:
+                    messages.error(request, _('The auction has been ended'))
                     return redirect("/")
 
                 if only_seller and not auction.is_seller(request.user):

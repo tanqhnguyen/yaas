@@ -7,9 +7,9 @@ class AuctionTest(TestCase):
     fixtures = ['fixtures.json']
 
     def setUp(self):
-        self.user = User.objects.order_by('?')[0]
-        self.password = "test_password_%s" % self.user.email.split("@")[0].split('email')[1]
-        self.client.login(username=self.user.username, password=self.password)
+        self.seller = User.objects.order_by('-id')[0]
+        self.seller_password = "test_password_%s" % self.seller.email.split("@")[0].split('email')[1]
+        self.client.login(username=self.seller.username, password=self.seller_password)
 
     def test_create_auction_without_login(self):
         self.client.logout()
@@ -65,7 +65,7 @@ class AuctionTest(TestCase):
         self.assertContains(response, u'Your auction has been created succesfully')
         self.assertEquals(initial_auction_count + 1, Auction.objects.count())
         new_auction = Auction.objects.filter(title__exact=data['title']).all()[0]
-        self.assertEquals(new_auction.seller_id, self.user.id)
+        self.assertEquals(new_auction.seller_id, self.seller.id)
         self.assertEquals(new_auction.min_next_bid_amount(), data['min_price'] + 0.01)
 
     def test_not_confirm_create_auction(self):

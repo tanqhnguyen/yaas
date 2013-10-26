@@ -195,8 +195,9 @@ djcelery.setup_loader()
 BROKER_URL = 'django://'
 
 # Email setting
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'tan.nguyen.yaas.abo@gmail.com'
-EMAIL_HOST_PASSWORD = 'aboakademi'
+# EMAIL_USE_TLS = True
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = 'tan.nguyen.yaas.abo@gmail.com'
+# EMAIL_HOST_PASSWORD = 'aboakademi'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

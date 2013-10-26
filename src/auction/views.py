@@ -119,7 +119,7 @@ class SearchView(View):
 
 class BidView(View):
     @method_decorator(login_required)
-    @method_decorator(pre_process_auction(not_seller=True))
+    @method_decorator(pre_process_auction(not_seller=True, not_finished=True))
     def dispatch(self, *args, **kwargs):
         return super(BidView, self).dispatch(*args, **kwargs)
 
