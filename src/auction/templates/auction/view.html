@@ -32,6 +32,10 @@
     {{ auction.description }}
   </div>
 
+  <div class="deadline">
+    {{auction.deadline|format_date}}
+  </div>
+
   <div class="bid">
     {% if not is_seller %}
     <form action="{% url 'bid_auction' auction_id=auction.id %}" method="POST">

@@ -97,6 +97,8 @@ class UpdateView(View):
         auction = self.request.auction
 
         description = request.POST.get('description')
+        if len(description) == 0:
+            description = auction.description
         auction.description = description
         auction.version += 1
         auction.save()
