@@ -110,3 +110,34 @@ class BidTest(TestCase):
 
         self.assertContains(response, u'The auction has been ended')
         self.assertEquals(self.auction.bids.count(), 1)
+
+    def test_bid_after_changing_description(self):
+        self.login_bidder(0)
+
+        data = {
+            'auction_id': self.auction.id,
+            'amount': 110,
+            'version': self.auction.version,
+            'bid_version': self.auction.bid_version
+        }
+        self.auction.version += 1
+        self.auction.save()
+        response = self.client.post(reverse('bid_auction', kwargs={'auction_id': data['auction_id']}), data, follow=True)
+        self.assertContains(response, u'The auction description has been changed. Please review it')
+        self.assertEquals(self.auction.bids.count(), 0)
+
+    def test_bid_after_another_bid_placed(self):
+        self.login_bidder(0)
+        data = {
+            'auction_id': self.auction.id,
+            'amount': 110,
+            'version': self.auction.version,
+            'bid_version': self.auction.bid_version
+        }
+        self.client.post(reverse('bid_auction', kwargs={'auction_id': data['auction_id']}), data)
+
+        self.login_bidder(1)
+        data['amount'] = 150
+        response = self.client.post(reverse('bid_auction', kwargs={'auction_id': data['auction_id']}), data, follow=True)
+        self.assertContains(response, u'Someone has placed a bid before you. Please try again')
+        self.assertEquals(self.auction.bids.count(), 1)
