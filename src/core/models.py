@@ -13,7 +13,7 @@ from celery.task.control import revoke
 from django.core.exceptions import ObjectDoesNotExist
 
 class User(AbstractUser):
-    language = models.CharField(max_length=2, default='en')
+    language = models.CharField(max_length=2, default='en')        
 
 class Auction(models.Model):
     INACTIVE = 'inactive'
@@ -179,6 +179,20 @@ class Auction(models.Model):
             mails.send(**kwargs)
 
         return self
+
+    def toJSON(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'description': self.description,
+            'min_price': self.min_price,
+            'deadline': self.deadline.strftime("%Y-%m-%d %H:%M:%S")
+        }
+
+    @staticmethod
+    def search(query):
+        return Auction.objects.filter(title__contains=query).exclude(status=Auction.BANNED).exclude(status=Auction.INACTIVE).all()
+
 
 class Bid(models.Model):
     amount = models.FloatField(_("Amount"), validators=[validators.validate_positive_number])

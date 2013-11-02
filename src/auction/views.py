@@ -110,7 +110,7 @@ class SearchView(View):
 
     def get(self, request):
         q = request.GET['q']
-        auctions = Auction.objects.filter(title__contains=q).exclude(status=Auction.BANNED).exclude(status=Auction.INACTIVE).all()
+        auctions = Auction.search(q)
         context = {
             'auctions': auctions,
             'q': q

@@ -14,8 +14,10 @@ urlpatterns = patterns('',
     url(r'^logout$', logout, {'next_page': '/'}),
     url(r'^set-language/(?P<language>[a-z]{2,4})$', 'core.views.set_language', name='set_language'),
 
+    url(r'^api/', include('api.urls')),
     url(r'^account/', include('account.urls')),
     url(r'^auction/', include('auction.urls')),
+
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
