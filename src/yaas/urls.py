@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     url(r'^login$', login, {'template_name': 'authentication/login.html'}),
     url(r'^logout$', logout, {'next_page': '/'}),
     url(r'^set-language/(?P<language>[a-z]{2,4})$', 'core.views.set_language', name='set_language'),
+    url(r'^after-login', 'core.views.after_login', name='after_login'),
 
     url(r'^api/', include('api.urls')),
     url(r'^account/', include('account.urls')),

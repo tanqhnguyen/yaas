@@ -118,12 +118,13 @@ MIDDLEWARE_CLASSES = (
   'django.middleware.csrf.CsrfViewMiddleware',
   'django.contrib.auth.middleware.AuthenticationMiddleware',
   'django.contrib.messages.middleware.MessageMiddleware',
+  'core.middleware.UserLanguageMiddleware'
   # Uncomment the next line for simple clickjacking protection:
   # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
 AUTH_USER_MODEL = 'core.User'
-LOGIN_REDIRECT_URL = '/account/profile'
+LOGIN_REDIRECT_URL = '/after-login'
 LOGIN_URL = '/login'
 
 ROOT_URLCONF = 'yaas.urls'

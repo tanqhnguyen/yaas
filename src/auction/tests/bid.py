@@ -51,6 +51,8 @@ class BidTest(TestCase):
         response = self.client.post(reverse('bid_auction', kwargs={'auction_id': data['auction_id']}), data, follow=True)
         self.assertContains(response, u'Your bid has been placed successfully')
         self.assertEquals(self.auction.bids.count(), 1)
+        auction = Auction.objects.get(pk=data['auction_id'])
+        self.assertEquals(auction.bid_version, data['bid_version'] + 1)
 
     def test_invalid_bid_amount(self):
         self.login_bidder(0)
@@ -63,6 +65,8 @@ class BidTest(TestCase):
         response = self.client.post(reverse('bid_auction', kwargs={'auction_id': data['auction_id']}), data, follow=True)
         self.assertContains(response, u'You must bid at least %(amount)s' % {'amount': self.auction.min_next_bid_amount()})
         self.assertEquals(self.auction.bids.count(), 0)
+        auction = Auction.objects.get(pk=data['auction_id'])
+        self.assertEquals(auction.bid_version, data['bid_version'])
 
     def test_invalid_bidder(self):
         data = {
@@ -74,6 +78,8 @@ class BidTest(TestCase):
         response = self.client.post(reverse('bid_auction', kwargs={'auction_id': data['auction_id']}), data, follow=True)
         self.assertContains(response, u'Seller can not do this')
         self.assertEquals(self.auction.bids.count(), 0)
+        auction = Auction.objects.get(pk=data['auction_id'])
+        self.assertEquals(auction.bid_version, data['bid_version'])
 
     def test_lower_bid_amount_than_previous_bidder(self):
         self.login_bidder(0)
@@ -90,6 +96,8 @@ class BidTest(TestCase):
         response = self.client.post(reverse('bid_auction', kwargs={'auction_id': data['auction_id']}), data, follow=True)
         self.assertContains(response, u'You must bid at least %(amount)s' % {'amount': self.auction.min_next_bid_amount()})
         self.assertEquals(self.auction.bids.count(), 1)
+        auction = Auction.objects.get(pk=data['auction_id'])
+        self.assertEquals(auction.bid_version, data['bid_version'])
 
     def test_place_bid_finished_auction(self):
         self.login_bidder(0)
@@ -125,6 +133,8 @@ class BidTest(TestCase):
         response = self.client.post(reverse('bid_auction', kwargs={'auction_id': data['auction_id']}), data, follow=True)
         self.assertContains(response, u'The auction description has been changed. Please review it')
         self.assertEquals(self.auction.bids.count(), 0)
+        auction = Auction.objects.get(pk=data['auction_id'])
+        self.assertEquals(auction.bid_version, data['bid_version'])
 
     def test_bid_after_another_bid_placed(self):
         self.login_bidder(0)

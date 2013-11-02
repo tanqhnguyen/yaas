@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-29 10:07-0500\n"
+"POT-Creation-Date: 2013-11-02 18:26+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,36 +17,264 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: templates/authentication/login.html:10
-#: templates/authentication/login.html:42
-#: templates/authentication/register.html:70
+#: account/forms.py:7
+msgid "Current password"
+msgstr ""
+
+#: account/forms.py:8
+#, fuzzy
+msgid "New password"
+msgstr "Mật khẩu"
+
+#: account/forms.py:9
+msgid "Confirm password"
+msgstr ""
+
+#: account/forms.py:14
+#, fuzzy
+msgid "Wrong password."
+msgstr "Mật khẩu"
+
+#: account/forms.py:22 authentication/forms.py:21
+msgid "Email must be unique."
+msgstr ""
+
+#: account/forms.py:31
+msgid "Enter the same password as above, for verification."
+msgstr ""
+
+#: account/templates/account/update.html:10
+#: core/templates/layouts/base.html:59
+msgid "Update profile"
+msgstr ""
+
+#: account/templates/account/update.html:70
+msgid "Save"
+msgstr ""
+
+#: api/decorators.py:17
+msgid "Invalid account"
+msgstr ""
+
+#: api/views.py:48 auction/views.py:143
+#, python-format
+msgid "You must bid at least %(amount)s"
+msgstr ""
+
+#: auction/decorators.py:29
+msgid "The auction is inactive"
+msgstr ""
+
+#: auction/decorators.py:32
+msgid "The auction has been banned"
+msgstr ""
+
+#: auction/decorators.py:35
+msgid "The auction has been ended"
+msgstr ""
+
+#: auction/decorators.py:38
+msgid "Invalid request"
+msgstr ""
+
+#: auction/decorators.py:41
+msgid "Seller can not do this action"
+msgstr ""
+
+#: auction/decorators.py:44
+msgid "Only admin can do this action"
+msgstr ""
+
+#: auction/decorators.py:48
+msgid "Invalid auction"
+msgstr ""
+
+#: auction/views.py:55
+msgid "Your auction has been created succesfully"
+msgstr ""
+
+#: auction/views.py:138
+msgid "Your bid has been placed successfully"
+msgstr ""
+
+#: auction/templates/auction/confirm.html:10
+msgid "Please confirm that you want to create this auction"
+msgstr ""
+
+#: auction/templates/auction/confirm.html:55
+msgid "Yes"
+msgstr ""
+
+#: auction/templates/auction/confirm.html:56
+msgid "No"
+msgstr ""
+
+#: auction/templates/auction/create.html:23
+#: core/templates/layouts/base.html:37
+msgid "Create auction"
+msgstr "Tạo đấu giá"
+
+#: auction/templates/auction/create.html:89
+msgid "Create"
+msgstr ""
+
+#: auction/templates/auction/search.html:12
+msgid "Not found"
+msgstr ""
+
+#: auction/templates/auction/update.html:20
+#: auction/templates/auction/view.html:20
+msgid "Update"
+msgstr ""
+
+#: auction/templates/auction/view.html:13
+msgid "Resolved"
+msgstr ""
+
+#: auction/templates/auction/view.html:26
+msgid "Ban"
+msgstr ""
+
+#: auction/templates/auction/view.html:46
+msgid "Place new bid"
+msgstr ""
+
+#: auction/templates/auction/view.html:53
+msgid "Winner is:"
+msgstr ""
+
+#: authentication/templates/authentication/login.html:14
+#: authentication/templates/authentication/login.html:46
+#: authentication/templates/authentication/register.html:70
+#: core/templates/layouts/base.html:52
 msgid "Login"
 msgstr "Đăng nhập"
 
-#: templates/authentication/login.html:23
-#: templates/authentication/login.html:37
+#: authentication/templates/authentication/login.html:27
+#: authentication/templates/authentication/login.html:41
 msgid "Invalid username or password"
 msgstr "Sai tên đăng nhập hoặc mật khẩu"
 
-#: templates/authentication/login.html:42
-#: templates/authentication/register.html:70
+#: authentication/templates/authentication/login.html:46
+#: authentication/templates/authentication/register.html:70
 msgid "or"
 msgstr "hoặc"
 
-#: templates/authentication/login.html:42
-#: templates/authentication/register.html:70
+#: authentication/templates/authentication/login.html:46
+#: authentication/templates/authentication/register.html:70
+#: core/templates/layouts/base.html:53
 msgid "Register"
 msgstr "Đăng kí"
 
-#: templates/authentication/register.html:10
+#: authentication/templates/authentication/register.html:10
 msgid "Registration"
 msgstr "Đơn đăng kí"
 
+#: core/models.py:24
+msgid "Title"
+msgstr ""
+
+#: core/models.py:25
+#, fuzzy
+msgid "Description"
+msgstr "Đơn đăng kí"
+
+#: core/models.py:27 core/templates/common/auction_list_entry.html:14
+msgid "Start price"
+msgstr ""
+
+#: core/models.py:42
+msgid "Auction created"
+msgstr ""
+
+#: core/models.py:43
+msgid "Your auction has been created"
+msgstr ""
+
+#: core/models.py:71
+msgid "The auction has been resolved"
+msgstr ""
+
+#: core/models.py:72
+#, python-format
+msgid "The auction \"%(title)s\" has been resolved."
+msgstr ""
+
+#: core/models.py:114
+msgid "New bid"
+msgstr ""
+
+#: core/models.py:115
+msgid "New bid has been placed"
+msgstr ""
+
+#: core/models.py:170
+msgid "Auction has been banned"
+msgstr ""
+
+#: core/models.py:171
+#, python-format
+msgid "Auction %(title)s has been banned"
+msgstr ""
+
+#: core/models.py:196
+msgid "The auction has been finished"
+msgstr ""
+
+#: core/models.py:198
+msgid "The auction description has been changed. Please review it"
+msgstr ""
+
+#: core/models.py:200
+msgid "Someone has placed a bid before you. Please try again"
+msgstr ""
+
+#: core/models.py:208
+msgid "Amount"
+msgstr ""
+
+#: core/validators.py:13
+msgid "Deadline must be in the future"
+msgstr ""
+
+#: core/validators.py:16
+msgid "Deadline must be at least 72 hours from now"
+msgstr ""
+
+#: core/validators.py:20
+msgid "Must be greater than 0"
+msgstr ""
+
+#: core/templates/common/auction_list_entry.html:7
+msgid "by"
+msgstr ""
+
+#: core/templates/common/auction_list_entry.html:18
+msgid "Current bid"
+msgstr ""
+
+#: core/templates/common/auction_list_entry.html:22
+msgid "Total bids"
+msgstr ""
+
+#: core/templates/layouts/base.html:36
+msgid "Index"
+msgstr ""
+
+#: core/templates/layouts/base.html:40
+msgid "Search"
+msgstr ""
+
+#: core/templates/layouts/base.html:44
+msgid "Languages"
+msgstr ""
+
+#: core/templates/layouts/base.html:63
+msgid "Logout"
+msgstr ""
+
 #~ msgid "Username"
 #~ msgstr "Tên đăng nhập"
-
-#~ msgid "Password"
-#~ msgstr "Mật khẩu"
 
 #~ msgid "Password confirmation"
 #~ msgstr "Nhập lại mật khẩu"
