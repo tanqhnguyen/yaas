@@ -15,7 +15,9 @@ class ApiTest(TestCase):
         initial_count = self.auction.bids.count()
         data = {
             'auction_id': self.auction.id,
-            'amount': 400
+            'amount': 400,
+            'version': self.auction.version,
+            'bid_version': self.auction.bid_version
         }
         params = {
             'path': reverse('api_bid_auction'),

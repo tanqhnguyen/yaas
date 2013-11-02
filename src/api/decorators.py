@@ -9,7 +9,6 @@ def api_authentication(*args, **kwargs):
             # in reality, this should be an API key or key/secret
             username = request.META.get("HTTP_API_USER")
             password = request.META.get("HTTP_API_USER_PASS")
-            print username, password
             user = authenticate(username=username, password=password)
             if user:
                 request.user = user

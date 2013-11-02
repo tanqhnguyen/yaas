@@ -132,21 +132,15 @@ class BidView(View):
         version = int(request.POST['version'])
         bid_version = int(request.POST['bid_version'])
 
-        if auction.status is Auction.FINISHED:
-            messages.error(request, _('The auction has been finished'))
-        elif version < auction.version:
-            messages.warning(request, _('The auction description has been changed. Please review it'))
-        elif bid_version < auction.bid_version:
-            messages.warning(request, _('Someone has placed a bid before you. Please try again'))
-        else:
-            try:
-                auction.bid(amount=amount, user=request.user)
-                messages.success(request, _('Your bid has been placed successfully'))
-            except InvalidBid, e:
-                if e.reason:
-                    messages.error(request, _(e.reason))
-                else:    
-                    messages.error(request, _('You must bid at least %(amount)s') % {'amount': e.amount})
+        try:
+            auction.verify_version_and_status(version, bid_version)
+            auction.bid(amount=amount, user=request.user)
+            messages.success(request, _('Your bid has been placed successfully'))
+        except InvalidBid, e:
+            if e.reason:
+                messages.error(request, _(e.reason))
+            else:    
+                messages.error(request, _('You must bid at least %(amount)s') % {'amount': e.amount})
 
         return redirect(auction)
 

@@ -33,16 +33,16 @@ class BidView(ApiView):
 
     def post(self, request):
         auction = self.request.auction
-        amount = float(request.POST['amount'])
+        amount = float(request.POST.get('amount', -1))
+        version = request.POST.get('version', -1)
+        bid_version = request.POST.get('bid_version', -1)
 
-        if auction.status is Auction.FINISHED:
-            return self.json({'error': _('The auction has been finished')})
-        else:
-            try:
-                auction.bid(amount=amount, user=request.user)
-                return self.json({'data': auction.toJSON()})
-            except InvalidBid, e:
-                if e.reason:
-                    return self.json({'error': _(e.reason)})
-                else:    
-                    return self.json({'error': _('You must bid at least %(amount)s') % {'amount': e.amount}})
+        try:
+            auction.verify_version_and_status(version, bid_version)
+            auction.bid(amount=amount, user=request.user)
+            return self.json({'data': auction.toJSON()})
+        except InvalidBid, e:
+            if e.reason:
+                return self.json({'error': _(e.reason)})
+            else:    
+                return self.json({'error': _('You must bid at least %(amount)s') % {'amount': e.amount}})

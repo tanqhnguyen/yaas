@@ -186,8 +186,18 @@ class Auction(models.Model):
             'title': self.title,
             'description': self.description,
             'min_price': self.min_price,
-            'deadline': self.deadline.strftime("%Y-%m-%d %H:%M:%S")
+            'deadline': self.deadline.strftime("%Y-%m-%d %H:%M:%S"),
+            'version': self.version,
+            'bid_version': self.bid_version
         }
+
+    def verify_version_and_status(self, version, bid_version):
+        if self.status is Auction.FINISHED:
+            raise InvalidBid(reason=_('The auction has been finished'))
+        elif version < self.version:
+            raise InvalidBid(reason=_('The auction description has been changed. Please review it'))
+        elif bid_version < self.bid_version:
+            raise InvalidBid(reason=_('Someone has placed a bid before you. Please try again'))
 
     @staticmethod
     def search(query):
