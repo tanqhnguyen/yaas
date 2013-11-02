@@ -1,7 +1,7 @@
 from django import forms
 from core.models import User
 from django.contrib.auth.forms import UserCreationForm
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext as _
 
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True)

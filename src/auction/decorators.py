@@ -1,7 +1,7 @@
 from core.models import Auction
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext as _
 from django.shortcuts import redirect
 from core.utils import json_response
 

@@ -17,7 +17,14 @@ class ApiTest(TestCase):
             'auction_id': self.auction.id,
             'amount': 400
         }
-        response = self.client.post(reverse('api_bid_auction'), data, YAAS_USER=self.user.username, YAAS_USER_PASS=self.user_password)
+        params = {
+            'path': reverse('api_bid_auction'),
+            'data': data,
+            'HTTP_API_USER': self.user.username,
+            'HTTP_API_USER_PASS': self.user_password
+        }
+
+        response = self.client.post(**params)
         self.assertEquals(self.auction.current_highest_bid().amount, data['amount'])
         self.assertEquals(self.auction.bids.count(), initial_count + 1)
         self.assertEquals(response.status_code, 200)

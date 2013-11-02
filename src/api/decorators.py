@@ -7,8 +7,9 @@ def api_authentication(*args, **kwargs):
         def inner(request, *args, **kwargs):
             # for demonstration purpose, use plain username/password
             # in reality, this should be an API key or key/secret
-            username = request.META.get("YAAS_USER")
-            password = request.META.get("YAAS_USER_PASS")
+            username = request.META.get("HTTP_API_USER")
+            password = request.META.get("HTTP_API_USER_PASS")
+            print username, password
             user = authenticate(username=username, password=password)
             if user:
                 request.user = user

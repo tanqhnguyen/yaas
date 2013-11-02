@@ -6,6 +6,7 @@ from decorators import api_authentication
 from django.utils.translation import ugettext as _
 from core.exceptions import InvalidBid
 from core.utils import json_response
+from django.views.decorators.csrf import csrf_exempt
 
 class ApiView(View):
     def json(self, data):
@@ -24,6 +25,7 @@ class SearchView(ApiView):
         return self.json(json_data)
 
 class BidView(ApiView):
+    @csrf_exempt
     @method_decorator(api_authentication())
     @method_decorator(pre_process_auction(not_seller=True, not_finished=True, is_json=True))
     def dispatch(self, *args, **kwargs):

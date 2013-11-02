@@ -4,7 +4,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic.base import View
 from forms import CreateForm
 from django.contrib import messages
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext as _
 from core.models import Auction
 from core.exceptions import InvalidBid
 from decorators import pre_process_auction

@@ -1,6 +1,6 @@
 from django import forms
 from core.models import User
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext as _
 
 class UpdateUserForm(forms.Form):
     email = forms.EmailField(required=True)
