@@ -21,6 +21,8 @@ def pre_process_auction(only_seller = False, not_seller = False, only_admin = Fa
             auction_id = kwargs.get('auction_id')
             if not auction_id:
                 auction_id = request.POST.get('auction_id')
+            if not auction_id:
+                auction_id = request.GET.get('auction_id')
             try:
                 auction = Auction.objects.get(pk=auction_id)
                 if auction.status == Auction.INACTIVE:

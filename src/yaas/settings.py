@@ -153,6 +153,7 @@ INSTALLED_APPS = (
   'authentication',
   'account',
   'auction',
+  'api',
   'south',
   'djcelery',
   'kombu.transport.django'

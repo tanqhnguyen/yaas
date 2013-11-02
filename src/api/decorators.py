@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate
 from core.utils import json_response
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext as _
 
 def api_authentication(*args, **kwargs):
     def decorator(function):
