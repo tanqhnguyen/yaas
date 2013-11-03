@@ -9,6 +9,7 @@
   <h2>
     {{auction.title}}
   </h2>
+  {% trans 'by' %} {{auction.seller.username}}
   {% if is_finished %}
     {% trans 'Resolved' %}
   {% endif %}
@@ -29,13 +30,21 @@
   </div>
 
   <div class="description">
-    {{ auction.description }}
+    <b>{% trans 'Description' %}:</b> {{ auction.description }}
   </div>
 
+  <div class="start-date">
+    <b>{% trans 'Start date' %}:</b> {{auction.start_date|format_date}}
+  </div>
   <div class="deadline">
-    {{auction.deadline|format_date}}
+    <b>{% trans 'End date' %}:</b> {{auction.deadline|format_date}}
   </div>
-
+  {% if auction.current_highest_bid %}
+    <div class="current-price">
+      <b>{% trans 'Current bid' %}:</b> {{ auction.current_highest_bid.amount }} EUR
+    </div>
+  {% endif %}
+  <hr>
   <div class="bid">
     {% if not is_seller %}
     <form action="{% url 'bid_auction' auction_id=auction.id %}" method="POST">
@@ -50,10 +59,10 @@
 
   {% if is_finished and winner %}
   <div class="winner">
-    {% trans 'Winner is:' %}{{winner.username}}
+    {% trans 'Winner is' %}: {{winner.username}}
   </div>
   {% endif %}
-
+  <hr>
   <div class="bid-list">
     {% for bid in bids.all %}
       <div class="bid-entry">

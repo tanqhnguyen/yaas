@@ -30,6 +30,7 @@ class Auction(models.Model):
     version = models.IntegerField(default=0)
     bid_version = models.IntegerField(default=0)
     task_id = models.CharField(max_length=36, default='')
+    start_date = models.DateTimeField(auto_now_add=True, blank=True, default=datetime.now)
 
     def get_absolute_url(self):
         return reverse('view_auction', kwargs={'auction_id': self.id})
